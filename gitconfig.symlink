@@ -24,4 +24,4 @@
   helper = cache
 
 [url "https://source.sonomapartners.com/scm/"]
-  insteadOf sp:
+  insteadOf = sp:
