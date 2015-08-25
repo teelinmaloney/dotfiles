@@ -1,0 +1,202 @@
+set nocompatible
+filetype off
+
+" set up vundle
+" https://github.com/VundleVim/Vundle.vim
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'bling/vim-airline'
+Plugin 'elzr/vim-json'
+Plugin 'ervandew/supertab'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'kien/ctrlp.vim'
+Plugin 'mileszs/ack.vim'
+Plugin 'pangloss/vim-javascript'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'tpope/vim-endwise'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-rails'
+Plugin 'tpope/vim-surround'
+Plugin 'valloric/youcompleteme'
+
+call vundle#end()
+
+syntax on #enable
+filetype plugin indent on
+
+" set 256 colors
+set t_Co=256
+
+" set default font
+set guifont=Monaco\ for\ Powerline
+
+" airline config
+let g:airline_powerline_fonts = 1
+"let g:airline_theme = 'pencil'
+
+" set dark background
+let g:solarized_termcolors=256
+set background=dark
+
+" turn on line numbers
+set number
+
+" no line wrapping
+set nowrap
+
+" show invisible characters
+set list
+
+" allow files to be hidden without saving
+set hidden
+
+" turn off toolbar in gui vim
+set guioptions=t
+
+" new split windows should be on the right or bottom
+set splitright
+set splitbelow
+
+" set tab options
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+
+" set list options
+set listchars=""
+set listchars=tab:\ \
+set listchars+=trail:
+set listchars+=extends:>
+
+" set backup and swap options
+set backupdir=~/.vim/_backup//
+set directory=~/.vim/_temp//
+
+" set backup
+set backspace=indent,eol,start
+
+" set highlight search
+set hlsearch
+
+colorscheme solarized
+
+" use jk instead of escape
+:imap jk <Esc>
+
+" set leader to comma
+let mapleader=","
+
+" misc mappings
+map <Leader>ra :%s/
+nmap <Leader>so :source ~/.vimrc<cr>
+nmap <Leader>pi :source ~/.vimrc<cr>:PluginInstall<cr>
+nmap <Leader>pu :source ~/.vimrc<cr>:PluginInstall!<cr>
+
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+
+" --- Plugin Key Mappings ---
+"  CtrlP
+map <Leader>r :CtrlP<CR>
+map <Leader>b :CtrlPBuffer<CR>
+
+" Fugitive
+map <Leader>gs :Gstatus<CR>
+map <Leader>gc :Gcommit<CR>
+
+" map leader n to toggle NERDTree
+map <leader>n :NERDTreeToggle<CR>
+
+" map command / to toggle comments
+map <leader>ct <plug>NERDCommenterToggle<cr>
+imap <leader>ct <ESC><plug>NERDCommenterToggle i
+
+" run current test
+nnoremap <leader>t :call RunTestFile()<CR>
+nnoremap <leader>T :w\|:silent !tmux send-keys -t bottom C-u 'rspec -f d -t focus' C-m <CR>\|:redraw!<CR>
+
+" function key mappings
+set pastetoggle=<F2>
+
+" cd to the directory containing the file in the buffer
+nmap <silent> <leader>cd :lcd %:h<CR>
+
+" Some helpers to edit mode
+" http://vimcasts.org/e/14
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+map <leader>ew :e %%
+map <leader>es :sp %%
+map <leader>ev :vsp %%
+map <leader>et :tabe %%
+
+map <leader>tn :tabnew<cr>
+
+" allow using + and - for window resizing
+if bufwinnr(1)
+  map + <C-W>+
+  map - <C-W>-
+endif
+
+if has("statusline") && !&cp
+  set laststatus=2  " always show the status bar
+
+  " Start the status line
+  "set statusline=%f\ %m\ %r
+  "set statusline+=Line:%l/%L[%p%%]
+  "set statusline+=Col:%v
+  "set statusline+=Buf:#%n
+  "set statusline+=[%b][0x%B]
+  "set statusline+=%=%{fugitive#statusline()}
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Running Tests
+" Testing functions borrowed from Gary Berhardt
+" [github.com/garybernhardt/dotfiles/blob/master/.vimrc]
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+function! RunTestFile(...)
+  if a:0
+      let command_suffix = a:1
+  else
+      let command_suffix = ""
+  endif
+
+  " Run the tests for the previously-marked file.
+  let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\)$') != -1
+  if in_test_file
+      call SetTestFile()
+  elseif !exists("t:grb_test_file")
+      return
+  end
+  call RunTests(t:grb_test_file . command_suffix)
+endfunction
+
+function! RunNearestTest()
+  let spec_line_number = line('.')
+  call RunTestFile(":" . spec_line_number . " -b")
+endfunction
+
+function! SetTestFile()
+  " Set the spec file that tests will be run for.
+  let t:grb_test_file=@%
+endfunction
+
+" Write the file and run tests for the given filename
+function! RunTests(filename)
+  if match(a:filename, '\.feature$') != -1
+      exec ":silent !tmux send-keys -t bottom 'cucumber -r features " . a:filename . "' C-m"
+      exec ":redraw!"
+  else
+      exec ":silent !tmux send-keys -t bottom 'rspec --color " . a:filename . "' C-m"
+      exec ":redraw!"
+  end
+endfunction

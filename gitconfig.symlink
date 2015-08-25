@@ -1,0 +1,27 @@
+[user]
+  name = Michael Maloney
+
+[core]
+  quotepath = false
+  editor = vim -f
+
+[push]
+  default = simple
+
+[alias]
+  l = log --graph --pretty=format':%C(yellow)%h%Cblue%d%Creset %s %C(white) %an, %ar%Creset'
+  # Alternate log display from Scott Chacon
+  lol = log --pretty=oneline --abbrev-commit --graph --decorate
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+  ui = true
+
+[credential]
+  helper = cache
+
+[url "https://source.sonomapartners.com/scm/"]
+  insteadOf sp:

@@ -1,0 +1,17 @@
+
+# filesystem
+alias la='ls -lahG'
+
+# pretty print paths
+alias path='echo -e ${PATH//:/\\n}'
+
+# open applications
+function xcode() {
+  if [ -d "*.xcworkspace" ]; then
+    open "*.xcworkspace"
+  elif [ -d "*.xcodeproj" ]; then
+    open "*.xcodeproj"
+  else
+    open -a Xcode
+  fi
+}
