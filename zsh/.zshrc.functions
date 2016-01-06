@@ -2,3 +2,5 @@
 function npmls() {
   npm ls --depth=0 "$0" 2>/dev/null
 }
+
+code () { VS_CODE_CWD = "$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}

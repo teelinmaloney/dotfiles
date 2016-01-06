@@ -62,8 +62,8 @@ bind | split-window -h
 bind - split-window -v
 
 # swapping windows
-bind -r < run '~/dotfiles/tmux/swap-windows.sh left'
-bind -r > run '~/dotfiles/tmux/swap-windows.sh right'
+#bind -r < run '~/dotfiles/tmux/swap-windows.sh left'
+#bind -r > run '~/dotfiles/tmux/swap-windows.sh right'
 
 #unbind [
 #bind ` copy-mode

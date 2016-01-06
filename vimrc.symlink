@@ -25,9 +25,11 @@ Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-surround'
-Plugin 'valloric/youcompleteme'
 
 call vundle#end()
+
+scriptencoding utf-8
+set encoding=utf-8
 
 syntax on #enable
 filetype plugin indent on
@@ -74,12 +76,13 @@ set softtabstop=2
 " set list options
 set listchars=""
 set listchars=tab:\ \
-set listchars+=trail:
+set listchars+=trail:.
 set listchars+=extends:>
 
 " set backup and swap options
-set backupdir=~/.vim/_backup//
-set directory=~/.vim/_temp//
+set backup
+set backupdir=~/.vim/_backups
+set directory=~/.vim/_temp
 
 " set backup
 set backspace=indent,eol,start

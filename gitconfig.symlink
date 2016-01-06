@@ -13,6 +13,7 @@
   # Alternate log display from Scott Chacon
   lol = log --pretty=oneline --abbrev-commit --graph --decorate
   lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  pt = push --follow-tags
 
 [color]
   diff = auto
