@@ -39,6 +39,7 @@ unsetopt correct
 unsetopt correct_all
 
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:/opt/subversion/bin:/usr/local/share/npm/bin:/usr/local/heroku/bin"
+export PATH="$PATH:/usr/local/share/dotnet" # Add dotnet core
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
